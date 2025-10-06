@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { 
   Mail, 
   Phone, 
@@ -24,30 +24,11 @@ import FloatingParticles from "@/components/ThreeJS/FloatingParticles";
 function ContactHero() {
   return (
     <motion.section
-      className="relative h-[60vh] flex items-center justify-center overflow-hidden"
+      className="relative h-[10vh] flex items-center justify-center overflow-hidden"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, ease: "easeOut" }}
     >
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
-        <motion.h1
-          className="text-5xl sm:text-6xl md:text-7xl brand-hero-alt mb-6"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-        >
-          Let's Connect
-        </motion.h1>
-        <motion.p
-          className="text-xl text-foreground/80 max-w-2xl mx-auto brand-tech"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-        >
-          Ready to bring your vision to life? We'd love to hear from you.
-        </motion.p>
-      </div>
-
       <div className="absolute inset-0 -z-10">
         <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
           <Suspense fallback={null}>
@@ -57,6 +38,71 @@ function ContactHero() {
         </Canvas>
       </div>
     </motion.section>
+  );
+}
+
+// Interactive Text Component
+function InteractiveText() {
+  const [currentText, setCurrentText] = useState(0);
+  
+  const texts = [
+    "Transform your ideas into digital masterpieces",
+    "Build products that users love and remember",
+    "Scale your business with intelligent solutions",
+    "Create experiences that inspire and engage"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentText((prev) => (prev + 1) % texts.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [texts.length]);
+
+  return (
+    <div className="space-y-8">
+      <motion.h1
+        className="text-5xl sm:text-6xl md:text-7xl brand-hero-alt text-left"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+      >
+        Let's Connect
+      </motion.h1>
+      
+      <motion.div
+        className="space-y-6"
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+      >
+        <motion.p
+          key={currentText}
+          className="text-xl text-foreground/80 brand-tech"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5 }}
+        >
+          {texts[currentText]}
+        </motion.p>
+        
+        <div className="space-y-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-2 h-2 bg-gradient-to-r from-pink to-lavender rounded-full animate-pulse-glow" />
+            <span className="text-foreground/60">24/7 Support Available</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-2 h-2 bg-gradient-to-r from-pink to-lavender rounded-full animate-pulse-glow" style={{ animationDelay: "0.5s" }} />
+            <span className="text-foreground/60">Free Initial Consultation</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-2 h-2 bg-gradient-to-r from-pink to-lavender rounded-full animate-pulse-glow" style={{ animationDelay: "1s" }} />
+            <span className="text-foreground/60">Custom Solutions for Every Need</span>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
@@ -121,178 +167,177 @@ function ContactForm() {
 
   return (
     <motion.section
-      className="py-20 px-6"
+      className="py-6 px-6"
       initial={{ opacity: 1, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 1, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <h2 className="text-4xl sm:text-5xl font-bold text-gradient mb-6">
-            Get in Touch
-          </h2>
-          <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-            Have a project in mind? Let's discuss how we can help bring your vision to life.
-          </p>
-        </motion.div>
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          {/* Left Side - Interactive Text */}
+          <motion.div
+            className="space-y-8"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
+            <InteractiveText />
+          </motion.div>
 
-        <motion.div
-          className="glass rounded-3xl p-12"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-        >
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Full Name *
-                </label>
-                <div className="relative">
-                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground/40" size={20} />
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
+          {/* Right Side - Contact Form */}
+          <motion.div
+            className="glass rounded-3xl p-12"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+          >
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Full Name *
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground/40" size={20} />
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground placeholder-foreground/50 focus:outline-none focus:border-pink transition-colors"
+                      placeholder="Your full name"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Email Address *
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground/40" size={20} />
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground placeholder-foreground/50 focus:outline-none focus:border-pink transition-colors"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Company
+                  </label>
+                  <div className="relative">
+                    <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground/40" size={20} />
+                    <input
+                      type="text"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground placeholder-foreground/50 focus:outline-none focus:border-pink transition-colors"
+                      placeholder="Your company name"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Phone Number
+                  </label>
+                  <div className="relative">
+                    <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground/40" size={20} />
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground placeholder-foreground/50 focus:outline-none focus:border-pink transition-colors"
+                      placeholder="+1 (555) 123-4567"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Service Needed
+                  </label>
+                  <select
+                    name="service"
+                    value={formData.service}
                     onChange={handleChange}
-                    required
-                    className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground placeholder-foreground/50 focus:outline-none focus:border-pink transition-colors"
-                    placeholder="Your full name"
-                  />
+                    className="w-full px-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground focus:outline-none focus:border-pink transition-colors"
+                  >
+                    <option value="">Select a service</option>
+                    <option value="brand-identity">Brand & Identity</option>
+                    <option value="web-development">Web Development</option>
+                    <option value="ai-integration">AI Integration</option>
+                    <option value="growth-marketing">Growth Marketing</option>
+                    <option value="consultation">Consultation</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Budget Range
+                  </label>
+                  <select
+                    name="budget"
+                    value={formData.budget}
+                    onChange={handleChange}
+                    className="w-full px-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground focus:outline-none focus:border-pink transition-colors"
+                  >
+                    <option value="">Select budget range</option>
+                    <option value="under-5k">Under $5K</option>
+                    <option value="5k-10k">$5K - $10K</option>
+                    <option value="10k-25k">$10K - $25K</option>
+                    <option value="25k-50k">$25K - $50K</option>
+                    <option value="50k-plus">$50K+</option>
+                  </select>
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Email Address *
+                  Project Details *
                 </label>
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground/40" size={20} />
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground placeholder-foreground/50 focus:outline-none focus:border-pink transition-colors"
-                    placeholder="your@email.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Company
-                </label>
-                <div className="relative">
-                  <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground/40" size={20} />
-                  <input
-                    type="text"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground placeholder-foreground/50 focus:outline-none focus:border-pink transition-colors"
-                    placeholder="Your company name"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Phone Number
-                </label>
-                <div className="relative">
-                  <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground/40" size={20} />
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground placeholder-foreground/50 focus:outline-none focus:border-pink transition-colors"
-                    placeholder="+1 (555) 123-4567"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Service Needed
-                </label>
-                <select
-                  name="service"
-                  value={formData.service}
+                <textarea
+                  name="message"
+                  value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground focus:outline-none focus:border-pink transition-colors"
-                >
-                  <option value="">Select a service</option>
-                  <option value="brand-identity">Brand & Identity</option>
-                  <option value="web-development">Web Development</option>
-                  <option value="ai-integration">AI Integration</option>
-                  <option value="growth-marketing">Growth Marketing</option>
-                  <option value="consultation">Consultation</option>
-                </select>
+                  required
+                  rows={6}
+                  className="w-full px-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground placeholder-foreground/50 focus:outline-none focus:border-pink transition-colors resize-none"
+                  placeholder="Tell us about your project, goals, and any specific requirements..."
+                />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Budget Range
-                </label>
-                <select
-                  name="budget"
-                  value={formData.budget}
-                  onChange={handleChange}
-                  className="w-full px-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground focus:outline-none focus:border-pink transition-colors"
-                >
-                  <option value="">Select budget range</option>
-                  <option value="under-5k">Under $5K</option>
-                  <option value="5k-10k">$5K - $10K</option>
-                  <option value="10k-25k">$10K - $25K</option>
-                  <option value="25k-50k">$25K - $50K</option>
-                  <option value="50k-plus">$50K+</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Project Details *
-              </label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={6}
-                className="w-full px-4 py-4 bg-foreground/5 border border-foreground/20 rounded-xl text-foreground placeholder-foreground/50 focus:outline-none focus:border-pink transition-colors resize-none"
-                placeholder="Tell us about your project, goals, and any specific requirements..."
-              />
-            </div>
-
-            <motion.button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full px-8 py-4 bg-gradient-to-r from-pink to-lavender text-white rounded-full font-medium hover:shadow-glow transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
-              whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
-            >
-              {isSubmitting ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Sending Message...
-                </>
-              ) : (
-                <>
-                  Send Message
-                  <Send size={18} />
-                </>
-              )}
-            </motion.button>
-          </form>
-        </motion.div>
+              <motion.button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full px-8 py-4 bg-gradient-to-r from-pink to-lavender text-white rounded-full font-medium hover:shadow-glow transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
+                whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending Message...
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <Send size={18} />
+                  </>
+                )}
+              </motion.button>
+            </form>
+          </motion.div>
+        </div>
       </div>
     </motion.section>
   );
