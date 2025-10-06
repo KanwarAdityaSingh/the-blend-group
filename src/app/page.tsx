@@ -46,7 +46,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-gradient"
+          className="text-center text-4xl sm:text-6xl md:text-7xl brand-hero-alt tracking-tight"
         >
           The Blend Group
         </motion.h1>
@@ -55,7 +55,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: "easeOut", delay: 0.1 }}
-          className="mt-4 text-center text-base sm:text-lg md:text-xl text-[color:var(--fg)]/80"
+          className="mt-4 text-center text-base sm:text-lg md:text-xl text-[color:var(--fg)]/80 brand-tech"
         >
           Where AI and Aesthetics Converge.
         </motion.p>
@@ -77,7 +77,7 @@ export default function Home() {
               onKeyDown={(e) => {
                 if (e.key === "Enter") goMain();
               }}
-              placeholder="make me a website…"
+              placeholder="make me the coolest marketting website ever…"
               className="w-full bg-transparent px-2 py-2 text-base sm:text-lg outline-none placeholder-[color:var(--fg)]/50 text-[color:var(--fg)]"
             />
             <button

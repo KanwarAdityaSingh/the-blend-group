@@ -3,10 +3,12 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouteTransition } from "@/theme/RouteTransition";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { scrollY } = useScroll();
+  const { begin } = useRouteTransition();
   
   const backgroundOpacity = useTransform(scrollY, [0, 100], [0, 0.8]);
   const backdropBlur = useTransform(scrollY, [0, 100], [0, 20]);
@@ -19,11 +21,15 @@ export default function Navbar() {
   }, [scrollY]);
 
   const navItems = [
-    { name: "Services", href: "#services" },
-    { name: "Portfolio", href: "#portfolio" },
-    { name: "Blogs", href: "#blogs" },
-    { name: "Contact", href: "#contact" },
+    { name: "Services", href: "/services", text: "Loading services..." },
+    { name: "Portfolio", href: "/portfolio", text: "Loading portfolio..." },
+    { name: "Blogs", href: "/blogs", text: "Loading articles..." },
+    { name: "Contact", href: "/contact", text: "Connecting..." },
   ];
+
+  const handleNavClick = (item: typeof navItems[0]) => {
+    begin({ text: item.text });
+  };
 
   return (
     <motion.nav
@@ -39,7 +45,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <motion.div
-          className="text-2xl font-bold text-gradient"
+          className="text-2xl font-bold brand-title text-gradient"
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
@@ -56,6 +62,7 @@ export default function Navbar() {
             >
               <Link
                 href={item.href}
+                onClick={() => handleNavClick(item)}
                 className="relative text-sm font-medium text-foreground/80 hover:text-foreground transition-colors duration-300 group"
               >
                 {item.name}

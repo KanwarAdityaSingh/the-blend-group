@@ -4,6 +4,10 @@ import React, { createContext, useCallback, useContext, useEffect, useRef, useSt
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import Loader from "@/theme/Loader";
+import BlogLoader from "@/theme/BlogLoader";
+import ServicesLoader from "@/theme/ServicesLoader";
+import PortfolioLoader from "@/theme/PortfolioLoader";
+import ContactLoader from "@/theme/ContactLoader";
 
 type RouteTransitionContextValue = {
   begin: (options?: { text?: string }) => void;
@@ -27,10 +31,25 @@ export function RouteTransitionProvider({ children }: { children: React.ReactNod
   useEffect(() => {
     if (!active) return;
     if (startedFrom.current && pathname !== startedFrom.current) {
-      const t = setTimeout(() => setActive(false), 2500);
+      const t = setTimeout(() => setActive(false), 3000);
       return () => clearTimeout(t);
     }
   }, [pathname, active]);
+
+  // Get the appropriate loader based on the target route
+  const getLoader = () => {
+    if (pathname.includes('/blogs')) {
+      return <BlogLoader size="md" text={text} />;
+    } else if (pathname.includes('/services')) {
+      return <ServicesLoader size="md" text={text} />;
+    } else if (pathname.includes('/portfolio')) {
+      return <PortfolioLoader size="md" text={text} />;
+    } else if (pathname.includes('/contact')) {
+      return <ContactLoader size="md" text={text} />;
+    } else {
+      return <Loader size="md" text={text} />;
+    }
+  };
 
   return (
     <RouteTransitionContext.Provider value={{ begin }}>
@@ -44,7 +63,7 @@ export function RouteTransitionProvider({ children }: { children: React.ReactNod
             exit={{ opacity: 0 }}
             transition={{ duration: 0.24, ease: "easeOut" }}
           >
-            <Loader size="md" text={text} />
+            {getLoader()}
           </motion.div>
         )}
       </AnimatePresence>

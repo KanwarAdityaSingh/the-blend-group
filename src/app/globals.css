@@ -27,8 +27,9 @@
   --color-accent: var(--accent);
   --color-pink: var(--pink-500);
   --color-lavender: var(--lavender-500);
-  --font-sans: Outfit, Poppins, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-sans: Inter, Outfit, Poppins, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  --font-mono: JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-brand: Space Grotesk, Inter, Outfit, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
 }
 
 /* Optional dark scheme (kept soft) */
@@ -81,6 +82,83 @@ body {
   color: transparent;
 }
 
+/* Performance Optimizations */
+* {
+  will-change: auto;
+}
+
+/* Smooth scrolling and performance */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Premium Brand Typography */
+.font-brand {
+  font-family: var(--font-brand);
+}
+
+.brand-title {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.brand-subtitle {
+  font-family: var(--font-brand);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.brand-hero {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--pink-500) 0%, var(--lavender-500) 50%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 4px rgba(255, 123, 185, 0.1);
+  filter: contrast(1.1) brightness(1.05);
+}
+
+.brand-tech {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.95;
+  color: var(--fg);
+}
+
+.brand-hero-alt {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: linear-gradient(135deg, var(--pink-500) 0%, var(--lavender-500) 50%, var(--fg) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: contrast(1.2) brightness(1.1);
+}
+
 /* Tailwind utility expectations from provided config */
 .bg-blend-gradient { background-image: var(--tw-gradient-stops, linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end))); }
 .backdrop-blur-glass { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
@@ -100,3 +178,78 @@ body {
 
 .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
 .animate-slide-down { animation: slide-down 3s linear infinite; }
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes float-away-0 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(20px, -10px);
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(40px, -20px);
+    opacity: 0;
+  }
+}
+
+@keyframes float-away-1 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-20px, -10px);
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(-40px, -20px);
+    opacity: 0;
+  }
+}
+
+@keyframes float-away-2 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(20px, 10px);
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(40px, 20px);
+    opacity: 0;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow { animation: spin-slow 3s linear infinite; }
+.animate-spin-reverse { animation: spin-reverse 3s linear infinite; }
