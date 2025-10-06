@@ -28,7 +28,7 @@ export default function Navbar() {
   ];
 
   const handleNavClick = (item: typeof navItems[0]) => {
-    begin({ text: item.text });
+    begin({ text: item.text, targetRoute: item.href });
   };
 
   return (
@@ -49,7 +49,12 @@ export default function Navbar() {
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <Link href="/">BLEND</Link>
+          <Link 
+            href="/main" 
+            onClick={() => begin({ text: "Cutting through the noise...", targetRoute: "/main" })}
+          >
+            BLEND
+          </Link>
         </motion.div>
 
         <div className="hidden md:flex items-center space-x-8">

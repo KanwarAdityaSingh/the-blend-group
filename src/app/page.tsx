@@ -18,7 +18,7 @@ export default function Home() {
   }, []);
 
   const goMain = () => {
-    begin({ text: "Cutting through the noise..." });
+    begin({ text: "Cutting through the noise...", targetRoute: "/main" });
     router.push("/main");
   };
 
